@@ -12,11 +12,17 @@ const getProductBy = async (query) =>{
 
     const {category,brand,min,max,name} = query;
     if(category) formatter.category ={$regex : category,$options : 'i'}
-    const isBrand = brand.split(",")
-    if(brand) formatter.brand = {  $in : isBrand} 
+    
+    if(brand){
+        const brandsItems = brand.split(",")
+        formatter.brand = {
+            $in : brandsItems,
+        }
+    } 
     if(min) formatter.price = {$gte : parseFloat(min)};
     if(max) formatter.price = { ...formatter.price, $lte : parseFloat(max)}
     if(name) formatter.name = {$regex : name,  $options : 'i'}
+
     const getData = await Product.find(formatter).sort(sort).limit(limit).skip(offSet)
 
     return getData;

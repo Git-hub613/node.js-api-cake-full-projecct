@@ -2,8 +2,9 @@ import { ROLES_ADMIN} from "../constant/roles.js";
 import productServices from "../services/productServices.js";
 
 const getProducts = async(request,response)=>{
+    const data = request.query;
    try {
-    const products = await productServices.getProductBy(request.query)
+    const products = await productServices.getProductBy(data)
     if(!products) return response.status(404).send("please you are check mongoDB not you Product")
     response.json(products)
    } catch (error) {
