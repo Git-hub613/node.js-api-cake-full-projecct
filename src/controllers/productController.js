@@ -35,11 +35,12 @@ const getProductById = async(request,response)=>{
 
 const createProduct = async (request,response)=>{
     const data = request.body;
-    const userData = request.user.id;
+    const userId = request.user.id;
+    const files = request.files;
     try {
-        const productData = await productServices.createProduct(data,userData)
+        const productData = await productServices.createProduct(data,userId,files)
 
-        if(productData.createdAtBy != userData && !userData.roles.includes(ROLES_ADMIN)) return response.status(403).send("Access deined.")
+        if(productData.createdAtBy != userId && !userId.roles.includes(ROLES_ADMIN)) return response.status(403).send("Access deined.")
 
     if(!productData) return response.status(404).send("products not found")
 
@@ -53,9 +54,10 @@ const updateProduct = async (request,response)=>{
     const id = request.params.id;
     const data = request.body;
     const userData = request.user;
+    const files = request.files
     try {
         
-        const updateData = await productServices.updateProduct(id,data);
+        const updateData = await productServices.updateProduct(userData.id,data,files,id);
         if(updateData.createdAtBy !== userData.id && !userData.roles.includes(ROLES_ADMIN)) return response.status(403).send("Access deined.")
         if(!updateData) return response.status(404).send("product not found");
         response.json(updateData);

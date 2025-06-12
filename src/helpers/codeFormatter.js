@@ -6,7 +6,8 @@ const codeFormatter = (data) =>{
         id : data.id,
         roles : data.roles,
         address : data.address,
-        createAt : data.createAt
+        createAt : data.createAt,
+        profileImage : data.profileImage
     }
 }
 

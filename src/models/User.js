@@ -55,7 +55,7 @@ const userSchema = new mongoose.Schema({
     },
     createdAt : {
         type : Date,
-        default : Date.now
+        default : Date.now(),
     },
 
     rating : {
@@ -65,7 +65,7 @@ const userSchema = new mongoose.Schema({
         max : 5,
     },
     profileImage : {
-        type : [String]
+        type : String,
     }
 })
 

@@ -1,6 +1,7 @@
 import {ROLES_MERCHANT, ROLES_USER } from '../constant/roles.js';
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs'
+import fileUpload from '../utils/file.js';
 const createUser = async (Data)=>{
     const userData = await User.create(Data);
     return userData;
@@ -61,10 +62,9 @@ const getAllMerchant = async ()=>{
 }
 
 const getAllMerchantId = async(id)=>{
-    const idData = await User.findById(id)
-    if(!idData) throw new Error("your account id do not match!!")
+    await User.findByIdAndDelete(id)
 
-        return idData;
+        return `this is deleleded in this id :${id}` ;
 }
 
 const country = async ()=>{
@@ -74,4 +74,18 @@ const country = async ()=>{
     return data;
 }
 
-export default {createUser,country,createMerchant,updateMerchant,merchantDelete,getAllMerchant,getAllMerchantId,getAllUser};
+const profileImageUpload = async (userId,file) =>{
+    const uploadData = await fileUpload(file)
+
+    if(!uploadData) throw new Error("your account profile image not upload")
+
+       const data = await User.findByIdAndUpdate(userId,{
+          profileImage : uploadData?.url,
+        },{new : true})
+
+        console.log(data)
+        return data
+
+}
+
+export default {createUser,country,createMerchant,updateMerchant,merchantDelete,getAllMerchant,getAllMerchantId,getAllUser,profileImageUpload};

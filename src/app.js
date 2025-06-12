@@ -6,11 +6,21 @@ import connectDB from './config/dataBase.js';
 import userRouter from './routes/userRoute.js';
 import logger from './middlewares/logger.js';
 import authRouter from './routes/authRouter.js';
+import multer from 'multer';
+import cloudinaryConnect from './config/cloudniry.js';
+import orderRouter from './routes/orderRouter.js';
+import paymentRouter from './routes/kaltiRouter.js';
 
 const app = express()
 
 app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json())
+
+cloudinaryConnect()
+
+const upload = multer({
+    storage : multer.memoryStorage()
+})
 
 app.use(logger)
 
@@ -31,9 +41,11 @@ app.get("/",(request,response)=>{
     })
 })
 
-app.use("/api/products",router)
-app.use("/api",userRouter)
+app.use("/api/products",upload.array('images',6),router)
+app.use("/api",upload.single('image'),userRouter)
 app.use("/api/auth",authRouter)
+app.use("/api/order",orderRouter)
+app.use("/api/payment",paymentRouter)
 
 
 

@@ -1,6 +1,8 @@
+import { response } from "express";
 import codeFormatter from "../helpers/codeFormatter.js";
 import userFormatter from "../helpers/userFormtter.js";
 import userService from "../services/userService.js";
+import { formatDate } from "date-fns";
 
 const createUser = async (request,response)=>{
 
@@ -80,7 +82,7 @@ const createUser = async (request,response)=>{
       try {
         const getIdData = userService.getAllMerchantId(id)
         if(!getIdData) return response.status(403).send("id not Athintication!!!")
-            response.json(getIdData)
+            response.send(`this user is successfullly delete ${id}`)
       } catch (error) {
         response.status(404).send(error.message)
       }
@@ -97,4 +99,18 @@ const createUser = async (request,response)=>{
 
     }
 
-    export {createUser,country,createMerchant,updateMerchant,merchantDelete,getAllMerchant,getAllMerchantId,getAllUser}
+    const profileImageUpload = async (request,response)=>{
+     const file = request.file;
+     const userId = request.user.id;
+     console.log(userId)
+ try {
+    const uploadData = await userService.profileImageUpload(userId,file)
+    if(!uploadData) return response.status(422).send("upload use not data.")
+        response.json(uploadData)
+ } catch (error) {
+    response.status(422).send(error.message)
+    
+ }
+    }
+
+    export {createUser,country,createMerchant,updateMerchant,merchantDelete,getAllMerchant,getAllMerchantId,getAllUser,profileImageUpload}

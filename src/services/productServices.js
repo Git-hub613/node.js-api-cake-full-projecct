@@ -1,4 +1,5 @@
 import Product from "../models/Product.js";
+import fileUpload from "../utils/file.js";
 
 
 const getProductBy = async (query,userId) =>{
@@ -33,17 +34,23 @@ const getProductById = async(id)=>{
 
 }
 
-const createProduct = async(data,userData) =>{
-    return await Product.create({...data, createdAtBy : userData});
+const createProduct = async(data,userId,files) =>{
+
+    const image = await fileUpload(files)
+
+    return  await Product.create({name : data.name, category : data.category, brand : data.brand, price : data.price, imageUrl :image?.map((items)=> items?.url) 
+        , createdAtBy : userId});
 
 }
 
-const updateProduct  = async (id,data)=>{
+const updateProduct  = async (userId,data,files,id)=>{
+    const image = await fileUpload(files)
 
-    const updateData = await Product.findByIdAndUpdate(id,data,{
-        new : true,
-        runValidators : true
+    const updateData = await Product.findByIdAndUpdate(id,{name : data.name,category : data.category, brand : data.brand, price : data.price , createBy : userId,images : image.map((items)=>items?.url)},{
+        new : true
     });
+
+    if(!image || !updateData) throw new Error("products not update please. try agin")
 
     return updateData;
 }
