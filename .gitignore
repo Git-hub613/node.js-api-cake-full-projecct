@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -138,3 +139,7 @@ dist
 =======
 .env
 >>>>>>> 932186a (api filter)
+=======
+.env
+node_modules/
+>>>>>>> 07e11f3 (first commit cake api)
