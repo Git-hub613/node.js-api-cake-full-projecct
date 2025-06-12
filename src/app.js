@@ -36,6 +36,7 @@ app.get("/",(request,response)=>{
         name : "Roshan Sardar",
         running : PORT,
         websiteName : "Kirna-Cake",
+        author : "Roshan Sardar",
       version: "1.0.0",
       license: "MIT",
     })

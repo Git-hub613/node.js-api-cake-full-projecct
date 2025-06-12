@@ -3,7 +3,7 @@ import productServices from "../services/productServices.js";
 
 const getProducts = async(request,response)=>{
    try {
-    const products = await productServices.getProductBy(request.query,request.user.id)
+    const products = await productServices.getProductBy(request.query)
     if(!products) return response.status(404).send("please you are check mongoDB not you Product")
     response.json(products)
    } catch (error) {

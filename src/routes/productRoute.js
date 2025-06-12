@@ -6,7 +6,7 @@ import {ROLES_USER,ROLES_MERCHANT,ROLES_ADMIN} from '../constant/roles.js'
 
 const router = express()
 
-router.get("/",auth,authBased(ROLES_MERCHANT),getProducts)
+router.get("/",getProducts)
 router.get("/user",auth,getUserAll)
 router.get("/:id",auth,authBased(ROLES_MERCHANT),getProductById)
 

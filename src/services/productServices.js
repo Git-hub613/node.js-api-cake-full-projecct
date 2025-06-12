@@ -2,9 +2,8 @@ import Product from "../models/Product.js";
 import fileUpload from "../utils/file.js";
 
 
-const getProductBy = async (query,userId) =>{
+const getProductBy = async (query) =>{
     console.log(query)
-    console.log(userId)
     // console.log(query)
     const sort = await JSON.parse(query.sort || "{}");
     const limit = query.limit;
@@ -18,9 +17,6 @@ const getProductBy = async (query,userId) =>{
     if(min) formatter.price = {$gte : parseFloat(min)};
     if(max) formatter.price = { ...formatter.price, $lte : parseFloat(max)}
     if(name) formatter.name = {$regex : name,  $options : 'i'}
-    if(userId) formatter.createdAtBy = userId.split(",")
-        if(!userId) throw new Error("user not authroge..")
-
     const getData = await Product.find(formatter).sort(sort).limit(limit).skip(offSet)
 
     return getData;
