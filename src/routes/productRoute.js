@@ -1,14 +1,14 @@
 import express from 'express';
-import { categoies, createProduct, deleteProduct, getProductById, getProducts, updateProduct } from '../controllers/productController.js';
+import { categoies, createProduct, deleteProduct, getProductById, getProducts, getUserAll, updateProduct } from '../controllers/productController.js';
 import auth from '../middlewares/authMiddlewares.js';
 import { authBased } from '../middlewares/authBase.js';
 import {ROLES_USER,ROLES_MERCHANT,ROLES_ADMIN} from '../constant/roles.js'
 
 const router = express()
 
-router.get("/",auth,authBased(ROLES_USER),getProducts)
-
-router.get("/:id",auth,authBased(ROLES_USER),getProductById)
+router.get("/",auth,authBased(ROLES_MERCHANT),getProducts)
+router.get("/user",auth,getUserAll)
+router.get("/:id",auth,authBased(ROLES_MERCHANT),getProductById)
 
 router.post("/",auth,authBased(ROLES_MERCHANT),createProduct )
 

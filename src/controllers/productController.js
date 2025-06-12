@@ -1,16 +1,27 @@
-import { ROLES_ADMIN, ROLES_MERCHANT, ROLES_USER } from "../constant/roles.js";
+import { ROLES_ADMIN} from "../constant/roles.js";
 import productServices from "../services/productServices.js";
 
 const getProducts = async(request,response)=>{
-    const getData = request.body;
    try {
-    const products = await productServices.getProductBy(getData)
-   response.json(products)
+    const products = await productServices.getProductBy(request.query,request.user.id)
+    if(!products) return response.status(404).send("please you are check mongoDB not you Product")
+    response.json(products)
    } catch (error) {
     response.status(500).send(error.message);
    }
 }
 
+const getUserAll = async(request,response)=>{
+    const query = request.query;
+    const userId = request.user.id
+    try {
+        const getAllData = await productServices.getProductBy(query,userId)
+        response.json(getAllData)
+    } catch (error) {
+        response.status(403).send(error.message)
+        
+    }
+}
 const getProductById = async(request,response)=>{
     const id = request.params.id;
     try {
@@ -83,4 +94,4 @@ const categoies = async (request,response)=>{
 }
 
 
-export {getProducts,getProductById,createProduct,updateProduct,deleteProduct,categoies}
+export {getProducts,getProductById,createProduct,updateProduct,deleteProduct,categoies,getUserAll}

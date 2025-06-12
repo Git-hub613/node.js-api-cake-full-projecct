@@ -48,6 +48,12 @@ const merchantDelete = async (id) =>{
     return dataDelete;
 }
 
+const getAllUser = async ()=>{
+    const getAllData = await User.find();
+
+    return getAllData;
+}
+
 const getAllMerchant = async ()=>{
     const getData = await User.find({})
     if(!getData) throw new Error("merchant get all profile invilid.")
@@ -68,4 +74,4 @@ const country = async ()=>{
     return data;
 }
 
-export default {createUser,country,createMerchant,updateMerchant,merchantDelete,getAllMerchant,getAllMerchantId};
+export default {createUser,country,createMerchant,updateMerchant,merchantDelete,getAllMerchant,getAllMerchantId,getAllUser};

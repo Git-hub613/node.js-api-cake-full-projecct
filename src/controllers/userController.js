@@ -86,4 +86,15 @@ const createUser = async (request,response)=>{
       }
     }
 
-    export {createUser,country,createMerchant,updateMerchant,merchantDelete,getAllMerchant,g
+    const getAllUser = async(request,response)=>{
+        const getAllData = await userService.getAllUser()
+        try {
+            if(!getAllData) return response.status(403).send("User not Access deinad.")
+            response.json(getAllData)
+        } catch (error) {
+            response.status(403).send(error.message)
+        }
+
+    }
+
+    export {createUser,country,createMerchant,updateMerchant,merchantDelete,getAllMerchant,getAllMerchantId,getAllUser}
