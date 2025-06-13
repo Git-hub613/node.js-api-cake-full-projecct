@@ -1,6 +1,7 @@
 import User from '../models/User.js'
 import Reset from '../models/Reset.js'
 import bcrypt from 'bcryptjs'
+import sendEmail from '../utils/email.js'
 
 const login = async (data) => {
 
@@ -52,6 +53,11 @@ const forgetPassword = async(email)=>{
         token : otp,
     })
 
+
+     await sendEmail(email,{
+        subject : "Reset password link please checking you are email.",
+        body : `${process.env.API_URL}/api/auth/reset-password/${resetData._id}?token=${otp}`
+     })
    
     return {message :" reset password has been opt code sent"}
 

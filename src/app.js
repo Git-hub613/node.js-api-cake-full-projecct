@@ -11,6 +11,7 @@ import cloudinaryConnect from './config/cloudniry.js';
 import orderRouter from './routes/orderRouter.js';
 import paymentRouter from './routes/kaltiRouter.js';
 import questionRoute from './routes/questionRouter.js';
+import cors from 'cors'
 
 const app = express()
 
@@ -22,6 +23,7 @@ cloudinaryConnect()
 const upload = multer({
     storage : multer.memoryStorage()
 })
+app.use(cors())
 
 app.use(logger)
 

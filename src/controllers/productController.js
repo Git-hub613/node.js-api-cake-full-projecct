@@ -1,12 +1,14 @@
 import { ROLES_ADMIN} from "../constant/roles.js";
+import productFormtter from "../helpers/productFormtter.js";
 import productServices from "../services/productServices.js";
 
 const getProducts = async(request,response)=>{
     const data = request.query;
    try {
     const products = await productServices.getProductBy(data)
-    if(!products) return response.status(404).send("please you are check mongoDB not you Product")
-    response.json(products)
+    const formatterCode = await products.map((product)=> product)
+    if(!formatterCode) return response.status(404).send("please you are check mongoDB not you Product")
+    response.json(formatterCode)
    } catch (error) {
     response.status(500).send(error.message);
    }
@@ -17,7 +19,8 @@ const getUserAll = async(request,response)=>{
     const userId = request.user.id
     try {
         const getAllData = await productServices.getProductBy(query,userId)
-        response.json(getAllData)
+        const mapData = await getAllData.map((product)=>product)
+        response.json(mapData)
     } catch (error) {
         response.status(403).send(error.message)
         
@@ -98,5 +101,30 @@ const categoies = async (request,response)=>{
    }
 }
 
+const brands = async (request,response)=>{
+    const brands = request.params.brands;
 
-export {getProducts,getProductById,createProduct,updateProduct,deleteProduct,categoies,getUserAll}
+    try {
+        const brandsData = await productServices.getProductBy({brand : brands})
+
+    response.json(brandsData)
+    } catch (error) {
+        response.status(400).send(error.message)
+    }
+
+}
+
+const category = async (request,response)=>{
+    const categoryId = request.params.category;
+
+    try {
+      const categoryData = await productServices.getProductBy({category : categoryId})
+
+    response.json(categoryData)  
+    } catch (error) {
+        response.status(404).send(error.message)
+    }
+}
+
+
+export {getProducts,getProductById,createProduct,updateProduct,deleteProduct,categoies,getUserAll,brands,category}

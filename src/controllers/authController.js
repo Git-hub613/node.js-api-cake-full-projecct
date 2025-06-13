@@ -14,7 +14,7 @@ const login = async (request,response)=>{
         const formatter = codeFormatter(loginData);
         const token = createJwt(formatter);
     response.cookie("authToken",token)
-    response.json(formatter);
+    response.json({...formatter,token});
     } catch (error) {
         response.status(404).send(error.message);
     }
@@ -37,7 +37,7 @@ const register = async(request,response)=>{
         const token = createJwt(formatter);
     response.cookie("authToken",token)
 
-    response.json(codeFormatter(formatter))
+    response.json({...formatter,token})
     } catch (error) {
 
         response.status(404).send(error.message)
@@ -57,9 +57,12 @@ const logout = async (request,response)=>{
 }
 
 const forgetPassword = async(request,response) =>{
+
+    const emailData = request.body.email
     
 try {
-    const resetData = await authService.forgetPassword(request.body.email)
+    const resetData = await authService.forgetPassword(emailData)
+    console.log(resetData)
 
 if(!resetData) return response.status(404).send("your data is not reset.")
     response.json(resetData)
