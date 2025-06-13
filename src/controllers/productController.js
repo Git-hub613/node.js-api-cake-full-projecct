@@ -24,13 +24,15 @@ const getUserAll = async(request,response)=>{
     }
 }
 const getProductById = async(request,response)=>{
-    const id = request.params.id;
+    const userId= request.params.id;
     try {
-        const productId = await productServices.getProductById(id);
+        const productId = await productServices.getProductById(userId);
+
+        if(!productId) return response.status(400).send("product id not found..")
 
     response.json(productId)
     } catch (error) {
-        response.status(404).send("product not found");
+        response.status(404).send(error.message);
     }
 }
 

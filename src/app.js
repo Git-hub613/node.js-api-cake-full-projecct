@@ -10,6 +10,7 @@ import multer from 'multer';
 import cloudinaryConnect from './config/cloudniry.js';
 import orderRouter from './routes/orderRouter.js';
 import paymentRouter from './routes/kaltiRouter.js';
+import questionRoute from './routes/questionRouter.js';
 
 const app = express()
 
@@ -47,6 +48,7 @@ app.use("/api",upload.single('image'),userRouter)
 app.use("/api/auth",authRouter)
 app.use("/api/order",orderRouter)
 app.use("/api/payment",paymentRouter)
+app.use("/api/question",questionRoute)
 
 
 

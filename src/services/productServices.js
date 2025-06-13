@@ -1,5 +1,7 @@
 import Product from "../models/Product.js";
 import fileUpload from "../utils/file.js";
+import geminiConnect from "../utils/gemini.js";
+import productFormtter from "../helpers/productFormtter.js";
 
 
 const getProductBy = async (query) =>{
@@ -30,8 +32,14 @@ const getProductBy = async (query) =>{
 
 const getProductById = async(id)=>{
     const product = await Product.findById(id);
-    
-    return product;
+
+    const geminiprompt = await geminiConnect(product)
+    console.log(geminiprompt)
+
+
+    const formatterData = await productFormtter(product,geminiprompt)
+
+    return formatterData;
 
 
 }
